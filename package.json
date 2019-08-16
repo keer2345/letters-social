@@ -2,7 +2,7 @@
     "name": "aaa",
     "version": "1.0.0",
     "description": "React App",
-    "main": "index.js",
+    "main": "./src/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "webpack-dev-server --mode development --open --hot",
@@ -11,6 +11,10 @@
     "author": "keer",
     "license": "MIT",
     "dependencies": {
+        "config": "^3.2.2",
+        "isomorphic-fetch": "^2.2.1",
+        "lodash": "^4.17.15",
+        "parse-link-header": "^1.0.1",
         "react": "^16.8.6",
         "react-dom": "^16.8.6"
     },
