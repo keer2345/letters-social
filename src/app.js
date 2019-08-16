@@ -6,6 +6,7 @@ import Navigator from "./components/nav/navbar"
 import * as API from "./shared/http"
 import parseLinkHeader from "parse-link-header"
 import orderBy from "lodash/orderBy"
+import Post from './components/post/Post'
 
 class App extends Component {
   constructor(props) {
@@ -18,6 +19,7 @@ class App extends Component {
         process.env.ENDPOINT
       }/posts?_page=1&_sort=date&_order=DESC&_embed=comments&_expand=user&_embed=likes`
     }
+    this.getPosts=this.getPosts.bind(this)
   }
 
   componentDidMount() {
@@ -53,11 +55,20 @@ class App extends Component {
       <div className="app">
         <Navigator />
         {this.state.loading ? (
-          <div className="loading">loading...</div>
+          <div className="loading">
+            <Loader />
+          </div>
         ) : (
           <div className="home">
             <Welcome key="welcome" />
             <div>
+              {this.state.posts.length && (
+                <div className="posts">
+                  {this.state.posts.map(({ id }) => {
+                    return <Post id={id} key={id}  />
+                  })}
+                </div>
+              )}
               <button className="block" onClick={this.getPosts}>
                 Load more posts
               </button>

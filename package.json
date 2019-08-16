@@ -12,7 +12,9 @@
     "license": "MIT",
     "dependencies": {
         "config": "^3.2.2",
+        "humanize-duration": "^3.20.1",
         "isomorphic-fetch": "^2.2.1",
+        "js-cookie": "^2.2.1",
         "lodash": "^4.17.15",
         "parse-link-header": "^1.0.1",
         "react": "^16.8.6",
