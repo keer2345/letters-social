@@ -19,18 +19,34 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(eot|svg|woff|woff2|otf|ttf)$/,
+        exclude: /node_modules/,
+        loader: "file-loader",
+        options: {
+          name: "[path][name].[ext]"
+        }
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader"
         }
+      },
+      {
+        test: /(\.css|\.scss)$/,
+        loaders: [
+          "style-loader",
+          "css-loader?sourceMap",
+          "sass-loader?sourceMap"
+        ]
       }
     ]
   },
   plugins: [
     new webpack.DefinePlugin(GLOBALS),
     new HtmlWebpackPlugin({
-      template: "./src/index.html"
+      template: "./src/index.ejs"
     })
   ]
 }
