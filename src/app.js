@@ -6,8 +6,15 @@ import Navigator from "./components/nav/navbar"
 import * as API from "./shared/http"
 import parseLinkHeader from "parse-link-header"
 import orderBy from "lodash/orderBy"
-import Post from './components/post/Post'
+import Post from "./components/post/Post"
+import PropTypes from "prop-types"
 
+/**
+ * The app component serves as a root for the project and renders either children,
+ * the error state, or a loading state
+ * @method App
+ * @module letters/components
+ */
 class App extends Component {
   constructor(props) {
     super(props)
@@ -19,11 +26,23 @@ class App extends Component {
         process.env.ENDPOINT
       }/posts?_page=1&_sort=date&_order=DESC&_embed=comments&_expand=user&_embed=likes`
     }
-    this.getPosts=this.getPosts.bind(this)
+    this.getPosts = this.getPosts.bind(this)
+  }
+
+  static propTypes = {
+    children: PropTypes.node
   }
 
   componentDidMount() {
     this.getPosts()
+  }
+
+  componentDidCatch(err, info) {
+    console.error(err)
+    console.error(info)
+    this.setState(() => ({
+      error: err
+    }))
   }
 
   getPosts() {
@@ -53,7 +72,7 @@ class App extends Component {
     }
     return (
       <div className="app">
-        <Navigator />
+        <Navigator user={this.props.user} />
         {this.state.loading ? (
           <div className="loading">
             <Loader />
@@ -65,7 +84,7 @@ class App extends Component {
               {this.state.posts.length && (
                 <div className="posts">
                   {this.state.posts.map(({ id }) => {
-                    return <Post id={id} key={id}  />
+                    return <Post id={id} key={id} user={this.props.user} />
                   })}
                 </div>
               )}

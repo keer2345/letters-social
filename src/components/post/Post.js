@@ -6,15 +6,31 @@ import UserHeader from "./UserHeader"
 import Content from "./Content"
 import Image from "./Image.js"
 import Link from "./Link"
+import PostActionSection from "./PostActionSection"
+import Comments from "../comment/Comments"
 
 class Post extends Component {
+  static propTypes = {
+    post: PropTypes.shape({
+      comments: PropTypes.array,
+      content: PropTypes.string,
+      date: PropTypes.number,
+      id: PropTypes.string.isRequired,
+      image: PropTypes.string,
+      likes: PropTypes.array,
+      location: PropTypes.object,
+      user: PropTypes.object,
+      userId: PropTypes.string
+    })
+  }
+
   constructor(props) {
     super(props)
     this.state = {
       post: null,
       comments: [],
-      showComments: false
-      // user: this.props.user
+      showComments: false,
+      user: this.props.user
     }
     this.loadPost = this.loadPost.bind(this)
   }
@@ -25,7 +41,6 @@ class Post extends Component {
     API.fetchPost(id)
       .then(res => res.json())
       .then(post => {
-        console.log(post)
         this.setState(() => ({ post }))
       })
   }
@@ -39,6 +54,12 @@ class Post extends Component {
         <Content post={this.state.post} />
         <Image post={this.state.post} />
         <Link link={this.state.post.link} />
+        <PostActionSection showComments={this.state.showComments} />
+        <Comments
+          comments={this.state.comments}
+          show={this.state.showComments}
+          post={this.state.post}
+        />
       </div>
     )
   }
